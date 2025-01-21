@@ -1,0 +1,4 @@
+2025-01-20T13:20:22.572Z [error]: GET /presentation/getPresentations - next is not a function
+2025-01-20T13:20:56.472Z [error]: GET /presentation/getPresentations - next is not a function
+2025-01-20T13:28:35.126Z [error]: GET /presentation/getPresentations - Cannot populate path `article` because it is not in your schema. Set the `strictPopulate` option to false to override.
+2025-01-20T13:28:48.001Z [error]: GET /presentation/getPresentations - Cannot populate path `article` because it is not in your schema. Set the `strictPopulate` option to false to override.
