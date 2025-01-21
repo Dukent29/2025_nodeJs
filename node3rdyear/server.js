@@ -9,11 +9,13 @@ app.use(bodyParser.json());
 
 const articleRoute = require('./route/article.route');
 const presentationRoute = require('./route/presentation.route');
-const invoiceRoute = require('./route/invoice.route'); // Add this line
+const invoiceRoute = require('./route/invoice.route');
+const cryptoRoute = require('./route/crypto.route'); // Add this line
 
 app.use('/article', articleRoute);
 app.use('/presentation', presentationRoute);
-app.use('/invoice', invoiceRoute); // Add this line
+app.use('/invoice', invoiceRoute);
+app.use('/crypto', cryptoRoute); // Add this line
 
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/3rdyear')
     .then(() => {
