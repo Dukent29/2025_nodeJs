@@ -1,27 +1,14 @@
-const { path } = require('pdfkit');
-const { createLogger, format, transports, level } = require('winston');
+require('dotenv').config(); // Load environment variables from .env file
+
+const path = require('path'); // Correctly import the path module
+const { createLogger, format, transports } = require('winston');
 const DailyRotateFile = require('winston-daily-rotate-file');
+const nodemailer = require('nodemailer'); // Import nodemailer
 
 const simpleLogFormat = format.printf(({ level, message, timestamp }) => {
     return `${timestamp} [${level}]: ${message}`;
 });
 
-// const logger = createLogger({
-//     level: 'info', // Default log level
-//     format: format.combine(
-//         format.timestamp({ format: 'MM-DD-YYYY HH:mm:ss' }), // Custom timestamp format
-//         logFormat
-//     ),
-//     transports: [
-//         new transports.Console(),
-//         new DailyRotateFile({
-//             filename: './logs/%DATE%.log',
-//             datePattern: 'DD-MM-YYYY',
-//             maxSize: '20m',
-//             maxFiles: '7d'
-//         })
-//     ]
-// });
 const logLevel = {
     levels: {
         info: 0,
@@ -56,17 +43,28 @@ const logger = createLogger({
 })
 
 const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    secure : process.env.EMAIL_SECURE  === 'true',
+    service: 'gmail',
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    },
-    tls : {
-        rejectUnauthorized: false
+        user: process.env.EMAIL_USER, // Use environment variable for email user
+        pass: process.env.EMAIL_PASS  // Use environment variable for email password
     }
-})
+});
+
+// Example usage of nodemailer
+const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: 'recipient-email@gmail.com',
+    subject: 'Test Email',
+    text: 'This is a test email sent from nodemailer.'
+};
+
+transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+        return console.log(error);
+    }
+    console.log('Email sent: ' + info.response);
+});
+
 async function sendMail(errorMessage){
     try {
         const mailOptions = {
